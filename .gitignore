@@ -50,3 +50,6 @@ app.*.map.json
 # Dart gen files
 **/*.freezed.dart
 **/*.g.dart
+
+# Env
+.env
