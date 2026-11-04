@@ -46,3 +46,7 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Dart gen files
+**/*.freezed.dart
+**/*.g.dart
