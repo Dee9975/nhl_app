@@ -1,5 +1,7 @@
 # nhl_app
 
+An NHL standings, statistics and schedule app. Uses the NHL API as documented in [NHL-API-Reference](https://github.com/Zmalski/NHL-API-Reference).
+
 ## Setup
 
 Requires Flutter with Dart SDK `^3.13.5`.
