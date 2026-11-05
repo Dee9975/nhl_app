@@ -55,4 +55,4 @@ app.*.map.json
 .env
 
 # Tmp
-.tmp/**
+tmp/**
