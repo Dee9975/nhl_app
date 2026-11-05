@@ -17,27 +17,27 @@ class const TeamStats({super.key, required final TeamStanding standing})
         children: [
           Row(
             children: [
-              _HeadlineStat(label: "GP", value: "${standing.gamesPlayed}"),
-              _HeadlineStat(label: "W", value: "${standing.wins}"),
-              _HeadlineStat(label: "L", value: "${standing.losses}"),
-              _HeadlineStat(label: "OTL", value: "${standing.otLosses}"),
-              _HeadlineStat(label: "PTS", value: "${standing.points}"),
+              HeadlineStat(label: "GP", value: "${standing.gamesPlayed}"),
+              HeadlineStat(label: "W", value: "${standing.wins}"),
+              HeadlineStat(label: "L", value: "${standing.losses}"),
+              HeadlineStat(label: "OTL", value: "${standing.otLosses}"),
+              HeadlineStat(label: "PTS", value: "${standing.points}"),
             ],
           ),
           const Divider(height: spaceXXXL),
-          _StatRow(
+          StatRow(
             label: "Points %",
             value: standing.pointPctg.toStringAsFixed(3),
           ),
-          _StatRow(
+          StatRow(
             label: "Goals for / against",
             value: "${standing.goalFor} / ${standing.goalAgainst}",
           ),
-          _StatRow(
+          StatRow(
             label: "Goal differential",
             value: _signed(standing.goalDifferential),
           ),
-          _StatRow(
+          StatRow(
             label: "Home",
             value: _record(
               standing.homeWins,
@@ -45,7 +45,7 @@ class const TeamStats({super.key, required final TeamStanding standing})
               standing.homeOtLosses,
             ),
           ),
-          _StatRow(
+          StatRow(
             label: "Road",
             value: _record(
               standing.roadWins,
@@ -53,7 +53,7 @@ class const TeamStats({super.key, required final TeamStanding standing})
               standing.roadOtLosses,
             ),
           ),
-          _StatRow(
+          StatRow(
             label: "Last 10",
             value: _record(
               standing.l10Wins,
@@ -61,19 +61,19 @@ class const TeamStats({super.key, required final TeamStanding standing})
               standing.l10OtLosses,
             ),
           ),
-          _StatRow(label: "Streak", value: _streak()),
+          StatRow(label: "Streak", value: _streak()),
           const Divider(height: spaceXXXL),
           Text("Standings", style: textTheme.titleSmall),
           const SizedBox(height: spaceMD),
-          _StatRow(
+          StatRow(
             label: standing.divisionName,
             value: _ordinal(standing.divisionSequence),
           ),
-          _StatRow(
+          StatRow(
             label: standing.conferenceName,
             value: _ordinal(standing.conferenceSequence),
           ),
-          _StatRow(label: "League", value: _ordinal(standing.leagueSequence)),
+          StatRow(label: "League", value: _ordinal(standing.leagueSequence)),
         ],
       ),
     );
@@ -118,45 +118,5 @@ class const TeamStats({super.key, required final TeamStanding standing})
     };
 
     return "$n$suffix";
-  }
-}
-
-class const _HeadlineStat({
-  required final String label,
-  required final String value,
-}) extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
-    return Expanded(
-      child: Column(
-        children: [
-          Text(
-            value,
-            style: textTheme.headlineSmall?.copyWith(fontWeight: .bold),
-          ),
-          Text(label, style: textTheme.labelMedium),
-        ],
-      ),
-    );
-  }
-}
-
-class const _StatRow({required final String label, required final String value})
-    extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
-    return Padding(
-      padding: const .symmetric(vertical: spaceSM),
-      child: Row(
-        children: [
-          Expanded(child: Text(label, style: textTheme.bodyMedium)),
-          Text(value, style: textTheme.bodyMedium?.copyWith(fontWeight: .w600)),
-        ],
-      ),
-    );
   }
 }

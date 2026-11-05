@@ -9,6 +9,7 @@ class const PlayerSection({
   super.key,
   required final String title,
   required final IList<RosterPlayer> players,
+  final ValueChanged<RosterPlayer>? onPlayerTap,
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,15 @@ class const PlayerSection({
             return const Divider(height: 1, indent: spaceXL + 56 + spaceXL);
           },
           itemBuilder: (context, i) {
-            return PlayerRow(player: players[i]);
+            final RosterPlayer player = players[i];
+
+            return PlayerRow(
+              player: player,
+              onTap: switch (onPlayerTap) {
+                null => null,
+                final ValueChanged<RosterPlayer> onTap => () => onTap(player),
+              },
+            );
           },
           itemCount: players.length,
         ),

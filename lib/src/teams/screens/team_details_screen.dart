@@ -1,5 +1,8 @@
+import "dart:async";
+
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:go_router/go_router.dart";
 
 import "package:nhl_app/src/core/core.dart";
 import "package:nhl_app/src/teams/teams.dart";
@@ -36,14 +39,30 @@ class const TeamDetailsScreen({super.key, required final TeamStanding standing})
                   ),
                 ),
               ),
-              PlayerSection(title: "Forwards", players: value.forwards),
-              PlayerSection(title: "Defensemen", players: value.defensemen),
-              PlayerSection(title: "Goalies", players: value.goalies),
+              PlayerSection(
+                title: "Forwards",
+                players: value.forwards,
+                onPlayerTap: (player) => _openPlayer(context, player),
+              ),
+              PlayerSection(
+                title: "Defensemen",
+                players: value.defensemen,
+                onPlayerTap: (player) => _openPlayer(context, player),
+              ),
+              PlayerSection(
+                title: "Goalies",
+                players: value.goalies,
+                onPlayerTap: (player) => _openPlayer(context, player),
+              ),
             ],
           ),
           _ => const Center(child: CircularProgressIndicator()),
         },
       ),
     );
+  }
+
+  void _openPlayer(BuildContext context, RosterPlayer player) {
+    unawaited(context.push("/teams/player/${player.id}"));
   }
 }

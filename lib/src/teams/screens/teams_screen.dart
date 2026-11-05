@@ -28,7 +28,7 @@ class const TeamsScreen({super.key}) extends ConsumerWidget {
               onTap: () {
                 unawaited(
                   context.push(
-                    "/team/${standing.teamAbbrev.value}",
+                    "/teams/team/${standing.teamAbbrev.value}",
                     extra: standing,
                   ),
                 );

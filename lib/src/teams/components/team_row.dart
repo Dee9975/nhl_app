@@ -12,9 +12,7 @@ class const TeamRow({
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      // Hit the empty space (e.g. the Spacer) too, not only the text and logo.
-      behavior: .opaque,
+    return InkWell(
       onTap: onTap,
       child: Padding(
         padding: const .all(spaceMD),

@@ -1,5 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "package:nhl_app/src/core/core.dart";
 import "package:nhl_app/src/teams/teams.dart";
 
 part "team_standing.freezed.dart";

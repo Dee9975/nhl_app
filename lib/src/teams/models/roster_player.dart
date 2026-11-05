@@ -1,6 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
-import "package:nhl_app/src/teams/teams.dart";
+import "package:nhl_app/src/core/core.dart";
 
 part "roster_player.freezed.dart";
 part "roster_player.g.dart";

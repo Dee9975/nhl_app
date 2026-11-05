@@ -1,5 +1,4 @@
 import "package:dio/dio.dart";
-import "package:flutter/foundation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "package:nhl_app/src/core/core.dart";
@@ -14,4 +13,4 @@ Dio dio(Ref ref) => Dio(
     receiveTimeout: const Duration(seconds: 20),
     headers: {"Accept": "application/json"},
   ),
-)..interceptors.addAll([if (kDebugMode) LogInterceptor(responseBody: false)]);
+);

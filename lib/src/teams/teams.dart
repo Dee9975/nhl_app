@@ -5,7 +5,6 @@ export "components/player_section.dart";
 export "components/team_header_delegate.dart";
 export "components/team_row.dart";
 export "components/team_stats.dart";
-export "models/localized_name.dart";
 export "models/roster_player.dart";
 export "models/roster_response.dart";
 export "models/standings_response.dart";

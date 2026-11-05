@@ -1,0 +1,7 @@
+    return Scaffold(
+      body: switch (playerState) {
+        AsyncData(:final value) => Center(child: Text(value.toString())),
+        AsyncError(:final error) => Center(child: Text("Error: $error")),
+        _ => const Center(child: CircularProgressIndicator()),
+      },
+    );

@@ -1,0 +1,45 @@
+<Context>
+You receive a selection in neovim that you need to replace with new code.
+The selection's contents may contain notes, incorporate the notes every time if there are some.
+consider the context of the selection and what you are suppose to be implementing
+<SELECTION_LOCATION>
+range(point(11,1),point(11,29))
+</SELECTION_LOCATION>
+<SELECTION_CONTENT>
+    return const Scaffold();
+</SELECTION_CONTENT>
+<SURROUNDING_CONTEXT>
+import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:nhl_app/src/players/providers/player_provider.dart";
+
+class const PlayerDetailsScreen({super.key, required final int playerId})
+    extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final playerState = ref.watch(playerProvider(playerId));
+
+    return const Scaffold();
+  }
+}
+</SURROUNDING_CONTEXT>
+
+</Context>
+<Prompt>
+Implement state handling for playerState
+</Prompt>
+
+<Location><File>/home/matt/projects/nhl_app/lib/src/players/screens/player_details_screen.dart</File><Function>range(point(11,1),point(11,29))</Function></Location>
+<FunctionText>    return const Scaffold();</FunctionText>
+<TEMP_FILE>./tmp/99-7530</TEMP_FILE>
+<MustObey>
+NEVER alter any file other than TEMP_FILE.
+never provide the requested changes as conversational output. Return only the code.
+ONLY provide requested changes by writing the change to TEMP_FILE
+
+never attempt to read TEMP_FILE.
+It is purely for output.
+Previous contents, which may not exist, can be written over without worry
+After writing TEMP_FILE once you should be done.  Be done and end the session.
+
+</MustObey>

@@ -1,7 +1,11 @@
 export "api/dio_provider.dart";
 export "components/error_view.dart";
+export "components/headline_stat.dart";
+export "components/stat_row.dart";
 export "env/env.dart";
+export "models/localized_name.dart";
 export "result/result.dart";
+export "router/app_shell.dart";
 export "router/router.dart";
 export "theme/app_colors.dart";
 export "theme/app_spacing.dart";
