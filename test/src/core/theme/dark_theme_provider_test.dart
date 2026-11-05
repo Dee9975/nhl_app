@@ -29,6 +29,43 @@ void main() {
     expect(container.read(darkThemeProvider), isFalse);
   });
 
+  group("saveDeviceDefault", () {
+    test("saves a dark device on first launch", () async {
+      SharedPreferencesAsyncPlatform.instance =
+          InMemorySharedPreferencesAsync.empty();
+      final SharedPreferencesWithCache preferences = await _preferences();
+
+      await DarkTheme.saveDeviceDefault(preferences, .dark);
+
+      final SharedPreferencesWithCache nextLaunch = await _preferences();
+      expect(nextLaunch.getBool(DarkTheme.storageKey), isTrue);
+    });
+
+    test("saves a light device on first launch", () async {
+      SharedPreferencesAsyncPlatform.instance =
+          InMemorySharedPreferencesAsync.empty();
+      final SharedPreferencesWithCache preferences = await _preferences();
+
+      await DarkTheme.saveDeviceDefault(preferences, .light);
+
+      final SharedPreferencesWithCache nextLaunch = await _preferences();
+      expect(nextLaunch.getBool(DarkTheme.storageKey), isFalse);
+    });
+
+    test("keeps a saved choice", () async {
+      SharedPreferencesAsyncPlatform.instance =
+          InMemorySharedPreferencesAsync.withData({
+            DarkTheme.storageKey: false,
+          });
+      final SharedPreferencesWithCache preferences = await _preferences();
+
+      await DarkTheme.saveDeviceDefault(preferences, .dark);
+
+      final SharedPreferencesWithCache nextLaunch = await _preferences();
+      expect(nextLaunch.getBool(DarkTheme.storageKey), isFalse);
+    });
+  });
+
   test("restores the saved choice", () async {
     final ProviderContainer container = await containerWith({
       DarkTheme.storageKey: true,
