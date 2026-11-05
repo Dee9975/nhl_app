@@ -9,7 +9,10 @@ import "package:nhl_app/src/core/core.dart";
 extension AppColorsRef on WidgetRef {
   /// [dark] while the dark theme is on, otherwise [light].
   Color color({required Color dark, required Color light}) {
-    return watch(darkThemeProvider) ? dark : light;
+    return switch (watch(darkThemeProvider)) {
+      true => dark,
+      false => light,
+    };
   }
 
   /// The current theme's side of [pair].

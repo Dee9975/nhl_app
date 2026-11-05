@@ -10,20 +10,20 @@ import "package:nhl_app/src/core/core.dart";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final SharedPreferencesWithCache preferences =
+  final SharedPreferencesWithCache prefs =
       await SharedPreferencesWithCache.create(
         cacheOptions: const SharedPreferencesWithCacheOptions(
           allowList: {DarkTheme.storageKey},
         ),
       );
   await DarkTheme.saveDeviceDefault(
-    preferences,
+    prefs,
     PlatformDispatcher.instance.platformBrightness,
   );
 
   runApp(
     ProviderScope(
-      overrides: [sharedPreferencesProvider.overrideWithValue(preferences)],
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
       retry: (retryCount, error) => switch (error) {
         Offline() || TimeoutFailure() when retryCount < 3 => Duration(
           seconds: 1 << retryCount,
