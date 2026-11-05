@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "package:nhl_app/src/core/core.dart";
 import "package:nhl_app/src/teams/teams.dart";
@@ -8,11 +9,9 @@ class const PlayerRow({
   super.key,
   required final RosterPlayer player,
   final VoidCallback? onTap,
-}) extends StatelessWidget {
+}) extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final TextTheme textTheme = Theme.of(context).textTheme;
+  Widget build(BuildContext context, WidgetRef ref) {
     final String name = "${player.firstName.value} ${player.lastName.value}";
 
     return InkWell(
@@ -21,15 +20,7 @@ class const PlayerRow({
         padding: const .symmetric(horizontal: spaceXL, vertical: spaceMD),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 28,
-              backgroundColor: colorScheme.surfaceContainerHighest,
-              foregroundImage: switch (player.headshot) {
-                "" => null,
-                final String url => NetworkImage(url),
-              },
-              child: Icon(Icons.person, color: colorScheme.onSurfaceVariant),
-            ),
+            PlayerHeadshot(url: player.headshot, radius: 28),
             const SizedBox(width: spaceXL),
             Expanded(
               child: Column(
@@ -39,24 +30,18 @@ class const PlayerRow({
                     name,
                     maxLines: 1,
                     overflow: .ellipsis,
-                    style: textTheme.titleMedium?.copyWith(fontWeight: .w600),
+                    style: AppTextStyles.title3Bold,
                   ),
                   Text(
                     _details(),
-                    style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
+                    style: AppTextStyles.paragraph3.copyWith(
+                      color: ref.textSecondary,
                     ),
                   ),
                 ],
               ),
             ),
-            Text(
-              "#${player.sweaterNumber}",
-              style: textTheme.titleLarge?.copyWith(
-                color: colorScheme.primary,
-                fontWeight: .bold,
-              ),
-            ),
+            Text("#${player.sweaterNumber}", style: AppTextStyles.title2Bold),
           ],
         ),
       ),

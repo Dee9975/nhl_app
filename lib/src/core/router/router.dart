@@ -1,9 +1,11 @@
+import "package:flutter/widgets.dart";
 import "package:go_router/go_router.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "package:nhl_app/src/core/core.dart";
 import "package:nhl_app/src/leaders/leaders.dart";
 import "package:nhl_app/src/players/players.dart";
+import "package:nhl_app/src/schedule/schedule.dart";
 import "package:nhl_app/src/settings/settings.dart";
 import "package:nhl_app/src/teams/teams.dart";
 
@@ -11,6 +13,14 @@ part "router.g.dart";
 
 @Riverpod(keepAlive: true)
 GoRouter router(Ref ref) {
+  // Player details exist in more than one tab, so each tab opens them in its
+  // own stack instead of jumping to another tab.
+  Widget playerDetails(BuildContext context, GoRouterState state) {
+    final int playerId = int.tryParse(state.pathParameters["id"] ?? "") ?? 0;
+
+    return PlayerDetailsScreen(playerId: playerId);
+  }
+
   final router = GoRouter(
     initialLocation: "/teams",
     routes: [
@@ -44,13 +54,24 @@ GoRouter router(Ref ref) {
                       return TeamDetailsScreen(standing: standing);
                     },
                   ),
+                  GoRoute(path: "player/:id", builder: playerDetails),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: "/schedule",
+                builder: (context, state) => const ScheduleScreen(),
+                routes: [
                   GoRoute(
-                    path: "player/:id",
+                    path: "game/:id",
                     builder: (context, state) {
-                      final int playerId =
+                      final int gameId =
                           int.tryParse(state.pathParameters["id"] ?? "") ?? 0;
 
-                      return PlayerDetailsScreen(playerId: playerId);
+                      return GameDetailsScreen(gameId: gameId);
                     },
                   ),
                 ],
@@ -62,6 +83,7 @@ GoRouter router(Ref ref) {
               GoRoute(
                 path: "/leaders",
                 builder: (context, state) => const LeadersScreen(),
+                routes: [GoRoute(path: "player/:id", builder: playerDetails)],
               ),
             ],
           ),

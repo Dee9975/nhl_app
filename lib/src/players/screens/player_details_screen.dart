@@ -21,7 +21,11 @@ class const PlayerDetailsScreen({super.key, required final int playerId})
             slivers: [
               SliverPersistentHeader(
                 pinned: true,
-                delegate: PlayerHeaderDelegate(player: value),
+                delegate: CollapsingImageHeaderDelegate(
+                  image: PlayerPhoto(player: value),
+                  title: "${value.firstName.value} ${value.lastName.value}",
+                  expandedHeight: 260,
+                ),
               ),
               SliverToBoxAdapter(child: PlayerSummary(player: value)),
             ],

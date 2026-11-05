@@ -53,4 +53,22 @@ class const PlayerLanding({
   factory fromJson(Map<String, dynamic> json) => _$PlayerLandingFromJson(json);
 
   Map<String, dynamic> toJson() => _$PlayerLandingToJson(this);
+
+  /// Birth date and place, e.g. `1997-01-13 · Richmond Hill, Ontario, CAN`,
+  /// leaving out whatever is missing.
+  String get born {
+    final String date = switch (birthDate) {
+      null => "",
+      final DateTime d =>
+        "${d.year}-${d.month.toString().padLeft(2, "0")}-"
+            "${d.day.toString().padLeft(2, "0")}",
+    };
+    final String place = [
+      birthCity.value,
+      birthStateProvince.value,
+      birthCountry,
+    ].where((part) => part.isNotEmpty).join(", ");
+
+    return [date, place].where((part) => part.isNotEmpty).join(" · ");
+  }
 }

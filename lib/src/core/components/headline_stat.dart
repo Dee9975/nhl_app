@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+import "package:nhl_app/src/core/core.dart";
+
 /// Large value over a small label, e.g. `82` over `GP`. Fills an equal share
 /// of a [Row].
 class const HeadlineStat({
@@ -9,16 +11,11 @@ class const HeadlineStat({
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
     return Expanded(
       child: Column(
         children: [
-          Text(
-            value,
-            style: textTheme.headlineSmall?.copyWith(fontWeight: .bold),
-          ),
-          Text(label, style: textTheme.labelMedium),
+          Text(value, style: AppTextStyles.title1Bold),
+          Text(label, style: AppTextStyles.paragraph3),
         ],
       ),
     );

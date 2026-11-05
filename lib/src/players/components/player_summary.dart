@@ -10,7 +10,6 @@ class const PlayerSummary({super.key, required final PlayerLanding player})
     extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
     final bool isGoalie = player.position == "G";
     final PlayerStats season = player.featuredStats.regularSeason.subSeason;
     final PlayerStats career = player.careerTotals.regularSeason;
@@ -21,8 +20,8 @@ class const PlayerSummary({super.key, required final PlayerLanding player})
         crossAxisAlignment: .stretch,
         children: [
           Text(
-            "${_season(player.featuredStats.season)} regular season",
-            style: textTheme.titleSmall,
+            "${StatFormat.season(player.featuredStats.season)} regular season",
+            style: AppTextStyles.paragraph2Bold,
           ),
           const SizedBox(height: spaceMD),
           Row(
@@ -35,14 +34,20 @@ class const PlayerSummary({super.key, required final PlayerLanding player})
                   label: "GAA",
                   value: season.goalsAgainstAvg.toStringAsFixed(2),
                 ),
-                HeadlineStat(label: "SV%", value: _pctg(season.savePctg)),
+                HeadlineStat(
+                  label: "SV%",
+                  value: StatFormat.savePct(season.savePctg),
+                ),
               ],
               false => [
                 HeadlineStat(label: "GP", value: "${season.gamesPlayed}"),
                 HeadlineStat(label: "G", value: "${season.goals}"),
                 HeadlineStat(label: "A", value: "${season.assists}"),
                 HeadlineStat(label: "PTS", value: "${season.points}"),
-                HeadlineStat(label: "+/-", value: _signed(season.plusMinus)),
+                HeadlineStat(
+                  label: "+/-",
+                  value: StatFormat.signed(season.plusMinus),
+                ),
               ],
             },
           ),
@@ -61,12 +66,17 @@ class const PlayerSummary({super.key, required final PlayerLanding player})
           ),
           StatRow(
             label: "Height / weight",
-            value: "${_height()} / ${player.weightInPounds} lb",
+            value:
+                "${StatFormat.height(player.heightInInches)} / "
+                "${player.weightInPounds} lb",
           ),
-          StatRow(label: "Born", value: _born()),
-          StatRow(label: "Draft", value: _draft()),
+          StatRow(label: "Born", value: player.born),
+          StatRow(label: "Draft", value: player.draftDetails.label),
           const Divider(height: spaceXXXL),
-          Text("Career regular season", style: textTheme.titleSmall),
+          const Text(
+            "Career regular season",
+            style: AppTextStyles.paragraph2Bold,
+          ),
           const SizedBox(height: spaceMD),
           StatRow(label: "Games played", value: "${career.gamesPlayed}"),
           ...switch (isGoalie) {
@@ -79,14 +89,20 @@ class const PlayerSummary({super.key, required final PlayerLanding player})
                 label: "Goals against average",
                 value: career.goalsAgainstAvg.toStringAsFixed(2),
               ),
-              StatRow(label: "Save %", value: _pctg(career.savePctg)),
+              StatRow(
+                label: "Save %",
+                value: StatFormat.savePct(career.savePctg),
+              ),
               StatRow(label: "Shutouts", value: "${career.shutouts}"),
             ],
             false => [
               StatRow(label: "Goals", value: "${career.goals}"),
               StatRow(label: "Assists", value: "${career.assists}"),
               StatRow(label: "Points", value: "${career.points}"),
-              StatRow(label: "Plus/minus", value: _signed(career.plusMinus)),
+              StatRow(
+                label: "Plus/minus",
+                value: StatFormat.signed(career.plusMinus),
+              ),
               StatRow(
                 label: "Power play goals",
                 value: "${career.powerPlayGoals}",
@@ -97,7 +113,7 @@ class const PlayerSummary({super.key, required final PlayerLanding player})
               ),
               StatRow(
                 label: "Shooting %",
-                value: _percent(career.shootingPctg),
+                value: StatFormat.percent(career.shootingPctg),
               ),
               StatRow(label: "Avg. time on ice", value: career.avgToi),
             ],
@@ -105,15 +121,6 @@ class const PlayerSummary({super.key, required final PlayerLanding player})
         ],
       ),
     );
-  }
-
-  /// `20262027` as `2026-27`.
-  String _season(int season) {
-    final String text = "$season";
-    return switch (text.length) {
-      8 => "${text.substring(0, 4)}-${text.substring(6)}",
-      _ => text,
-    };
   }
 
   String _position() {
@@ -125,58 +132,5 @@ class const PlayerSummary({super.key, required final PlayerLanding player})
       "G" => "Goalie",
       final String code => code,
     };
-  }
-
-  /// Feet and inches, e.g. `6'2"`.
-  String _height() {
-    final int feet = player.heightInInches ~/ 12;
-    final int inches = player.heightInInches % 12;
-    return "$feet'$inches\"";
-  }
-
-  /// Birth date and place, e.g. `1997-01-13 · Richmond Hill, Ontario, CAN`.
-  String _born() {
-    final String date = switch (player.birthDate) {
-      null => "",
-      final DateTime d =>
-        "${d.year}-${d.month.toString().padLeft(2, "0")}-"
-            "${d.day.toString().padLeft(2, "0")}",
-    };
-    final String place = [
-      player.birthCity.value,
-      player.birthStateProvince.value,
-      player.birthCountry,
-    ].where((part) => part.isNotEmpty).join(", ");
-
-    return [date, place].where((part) => part.isNotEmpty).join(" · ");
-  }
-
-  /// e.g. `2015 EDM, round 1, #1 overall`, or `Undrafted`.
-  String _draft() {
-    final DraftDetails draft = player.draftDetails;
-    return switch (draft.year) {
-      0 => "Undrafted",
-      _ =>
-        "${draft.year} ${draft.teamAbbrev}, round ${draft.round}, "
-            "#${draft.overallPick} overall",
-    };
-  }
-
-  /// Adds a leading `+` to positive numbers.
-  String _signed(int value) {
-    return switch (value) {
-      > 0 => "+$value",
-      _ => "$value",
-    };
-  }
-
-  /// Save percentage the hockey way, e.g. `.913`.
-  String _pctg(double value) {
-    return value.toStringAsFixed(3).replaceFirst("0.", ".");
-  }
-
-  /// Fraction as a percentage, e.g. `0.1516` as `15.2%`.
-  String _percent(double value) {
-    return "${(value * 100).toStringAsFixed(1)}%";
   }
 }

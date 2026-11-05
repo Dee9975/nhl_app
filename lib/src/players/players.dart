@@ -1,5 +1,5 @@
 export "api/players_api.dart";
-export "components/player_header_delegate.dart";
+export "components/player_photo.dart";
 export "components/player_summary.dart";
 export "models/award.dart";
 export "models/award_season.dart";

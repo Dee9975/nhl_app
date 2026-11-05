@@ -8,8 +8,6 @@ class const TeamStats({super.key, required final TeamStanding standing})
     extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
     return Padding(
       padding: const .all(spaceXL),
       child: Column(
@@ -63,7 +61,7 @@ class const TeamStats({super.key, required final TeamStanding standing})
           ),
           StatRow(label: "Streak", value: _streak()),
           const Divider(height: spaceXXXL),
-          Text("Standings", style: textTheme.titleSmall),
+          const Text("Standings", style: AppTextStyles.paragraph2Bold),
           const SizedBox(height: spaceMD),
           StatRow(
             label: standing.divisionName,

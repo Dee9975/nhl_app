@@ -23,6 +23,11 @@ class const AppShell({
             label: "Teams",
           ),
           NavigationDestination(
+            icon: Icon(Icons.calendar_month_outlined),
+            selectedIcon: Icon(Icons.calendar_month),
+            label: "Schedule",
+          ),
+          NavigationDestination(
             icon: Icon(Icons.leaderboard_outlined),
             selectedIcon: Icon(Icons.leaderboard),
             label: "Leaders",

@@ -26,17 +26,16 @@ class const TeamDetailsScreen({super.key, required final TeamStanding standing})
             slivers: [
               SliverPersistentHeader(
                 pinned: true,
-                delegate: TeamHeaderDelegate(standing: standing),
+                delegate: CollapsingImageHeaderDelegate(
+                  image: TeamLogo(url: standing.teamLogo),
+                  title: standing.teamName.value,
+                ),
               ),
               SliverToBoxAdapter(child: TeamStats(standing: standing)),
-              SliverToBoxAdapter(
+              const SliverToBoxAdapter(
                 child: Padding(
-                  padding: const .fromLTRB(spaceXL, spaceMD, spaceXL, 0),
-                  child: Text(
-                    "Roster",
-                    style: Theme.of(context).textTheme.headlineSmall
-                        ?.copyWith(fontWeight: .bold),
-                  ),
+                  padding: .fromLTRB(spaceXL, spaceMD, spaceXL, 0),
+                  child: Text("Roster", style: AppTextStyles.title1Bold),
                 ),
               ),
               PlayerSection(

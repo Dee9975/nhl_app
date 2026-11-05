@@ -15,4 +15,12 @@ class const DraftDetails({
   factory fromJson(Map<String, dynamic> json) => _$DraftDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$DraftDetailsToJson(this);
+
+  /// e.g. `2015 EDM, round 1, #1 overall`, or `Undrafted`.
+  String get label {
+    return switch (year) {
+      0 => "Undrafted",
+      _ => "$year $teamAbbrev, round $round, #$overallPick overall",
+    };
+  }
 }

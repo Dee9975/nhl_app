@@ -10,20 +10,18 @@ class const StatRow({
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
     return Padding(
       padding: const .symmetric(vertical: spaceSM),
       child: Row(
         children: [
-          Text(label, style: textTheme.bodyMedium),
+          Text(label, style: AppTextStyles.paragraph2),
           const SizedBox(width: spaceXL),
           // Long values (e.g. a birthplace) wrap instead of overflowing.
           Expanded(
             child: Text(
               value,
               textAlign: .end,
-              style: textTheme.bodyMedium?.copyWith(fontWeight: .w600),
+              style: AppTextStyles.paragraph2Bold,
             ),
           ),
         ],

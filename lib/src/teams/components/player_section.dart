@@ -16,7 +16,7 @@ class const PlayerSection({
     return SliverMainAxisGroup(
       slivers: [
         SliverToBoxAdapter(
-          child: PlayerGroupHeader(title: title, count: players.length),
+          child: SectionHeader(title: title, count: players.length),
         ),
         SliverList.separated(
           separatorBuilder: (context, i) {

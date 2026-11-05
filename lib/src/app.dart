@@ -8,6 +8,8 @@ class const App({super.key}) extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) => MaterialApp.router(
     title: "NHL",
     theme: AppTheme.light,
+    darkTheme: AppTheme.dark,
+    themeMode: ref.watch(darkThemeProvider) ? .dark : .light,
     routerConfig: ref.watch(routerProvider),
   );
 }
